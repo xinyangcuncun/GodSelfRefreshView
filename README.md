@@ -67,5 +67,6 @@ WebView支持腾讯SDK
       
 ##效果图
 
+![image](https://github.com/xinyangcuncun/GodSelfRefreshView/blob/master/app/src/main/res/drawable/meituan.gif)
 
     
