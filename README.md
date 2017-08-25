@@ -1,7 +1,7 @@
 # GodSelfRefreshView
 本项目是个自定义的下拉刷新、上拉加载框架，支持原生webview、RecyclerView、ListView、ScrollView
 
-##V1.0
+##V1.1
 
 WebView仅支持原生
 
@@ -14,17 +14,17 @@ WebView支持腾讯SDK
 >第一步
 
     allprojects {
-    		repositories {
-    			...
-    			maven { url 'https://jitpack.io' }
-    		}
+    	repositories {
+    		...
+    		maven { url 'https://jitpack.io' }
     	}
+    }
     
 >第二步
  
-     dependencies {
-            compile 'com.github.xinyangcuncun:GodSelfRefreshView:V1.0'
-          }
+    dependencies {
+       compile 'com.github.xinyangcuncun:GodSelfRefreshView:V1.1'
+    }
 
 ##API介绍
 
