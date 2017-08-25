@@ -51,4 +51,6 @@ public abstract class BaseFooterManager {
      * 已经是最后一个页面
      */
     public abstract void footerRefreshOver();
+
+    public abstract void footerRefreshNext();
 }

@@ -51,4 +51,9 @@ public class InitFooterManager extends BaseFooterManager {
     public void footerRefreshOver() {
         headerText.setText("已经到底了");
     }
+
+    @Override
+    public void footerRefreshNext() {
+
+    }
 }
