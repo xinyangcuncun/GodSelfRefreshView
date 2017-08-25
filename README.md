@@ -57,5 +57,15 @@ WebView支持腾讯SDK
        godSeflRefreshView.onFooterRefreshComplete();
        //加载到底部
        godSeflRefreshView.onFooterRefreshOver();
-       
+      
+>使用自定义
+
+新建一个类继承 BaseHeaderManager或者BaseFooterManager，并复写里面的方法。
+使用时传入这个对象即可，详见demo的使用。
+
+      godSeflRefreshView.setBaseHeaderManager(new MeituanRefreshHeaderManager(getContext()));
+      
+##效果图
+
+
     

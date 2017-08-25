@@ -2,13 +2,17 @@ package com.example.anson.godselfrefresh;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
 
 import com.example.godseflrefresh.GodSeflRefreshView;
-import com.example.godseflrefresh.interfaces.OnFooterRefreshListener;
-import com.example.godseflrefresh.interfaces.OnHeaderRefreshListener;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +20,11 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Handler handler = new Handler();
     private int i = 0;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private ArrayList<String> mFilter = new ArrayList<>();
+    private ArrayList<Fragment> mFragments = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,40 +33,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        godSeflRefreshView = (GodSeflRefreshView) findViewById(R.id.god_self_refresh);
-        godSeflRefreshView.setBaseHeaderManager();
-        recyclerView = (RecyclerView) findViewById(R.id.rv);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new QuickAdapter(40));
-        //下拉刷新监听
-        godSeflRefreshView.setOnHeaderRefreshListener(new OnHeaderRefreshListener() {
+        mFilter.add("非自定义");
+        mFilter.add("自定义");
+        mFragments.add(new NotSelfFragment());
+        mFragments.add(new SelfFragment());
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager_grow_course);
+        tabLayout = (TabLayout) findViewById(R.id.tablayout_grow_course);
+        viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
-            public void onHeaderRefresh(GodSeflRefreshView view) {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        godSeflRefreshView.onHeaderRefreshComplete();
-                    }
-                }, 2000);
+            public Fragment getItem(int position) {
+                return mFragments.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return mFragments.size();
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return mFilter.get(position);
+            }
+
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object object) {
             }
         });
-        //上拉加载
-        godSeflRefreshView.setBaseFooterManager();
-        godSeflRefreshView.setOnFooterRefreshListener(new OnFooterRefreshListener() {
-            @Override
-            public void onFooterRefresh(GodSeflRefreshView view) {
-                i++;
-                if (i < 2) {
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            godSeflRefreshView.onFooterRefreshComplete();
-                        }
-                    }, 2000);
-                } else {
-                    godSeflRefreshView.onFooterRefreshOver();
-                }
-            }
-        });
+        viewPager.setOffscreenPageLimit(0);
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setCurrentItem(0);
+
     }
 }
