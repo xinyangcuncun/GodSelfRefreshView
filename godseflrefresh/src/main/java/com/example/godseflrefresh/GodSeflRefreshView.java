@@ -32,6 +32,7 @@ public class GodSeflRefreshView extends LinearLayout {
     private static final int RELEASE_TO_REFRESH = 3; // 释放下拉刷新  上方上拉加载
     private static final int REFRESHING = 4; // 正在刷新的状态
     private static final int PULL_TO_OVER = 5; // 上拉加载完成（没有数据的时候）
+    private static final int PULL_TO_NORMOl = -1; // 上拉加载完成（没有数据的时候）
     // pull state
     private static final int PULL_UP_STATE = 0; // 判断是否是尾部
     private static final int PULL_DOWN_STATE = 1;  //判断是否是头部
@@ -354,6 +355,7 @@ public class GodSeflRefreshView extends LinearLayout {
         setHeaderTopMarginComplete(-mHeadViewHeight);
         mBaseHeaderManager.headerRefreshComplete();
         mHeaderState = PULL_TO_REFRESH;
+        mFooterState = PULL_TO_NORMOl;
     }
 
     /**

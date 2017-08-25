@@ -53,6 +53,7 @@ public class NotSelfFragment extends Fragment {
                     @Override
                     public void run() {
                         godSeflRefreshView.onHeaderRefreshComplete();
+                        i = 0;
                     }
                 }, 2000);
             }
@@ -63,7 +64,7 @@ public class NotSelfFragment extends Fragment {
             @Override
             public void onFooterRefresh(GodSeflRefreshView view) {
                 i++;
-                if (i < 2) {
+                if (i < 3) {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {

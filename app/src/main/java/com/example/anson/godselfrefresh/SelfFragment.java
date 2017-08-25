@@ -53,6 +53,7 @@ public class SelfFragment extends Fragment {
                     @Override
                     public void run() {
                         godSeflRefreshView.onHeaderRefreshComplete();
+                        i = 0;
                     }
                 }, 2000);
             }
