@@ -9,7 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.example.godseflrefresh.GodSeflRefreshView;
 import com.example.godseflrefresh.interfaces.OnFooterRefreshListener;
 import com.example.godseflrefresh.interfaces.OnHeaderRefreshListener;
@@ -42,7 +45,20 @@ public class NotSelfFragment extends Fragment {
         godSeflRefreshView.setBaseHeaderManager();
         recyclerView = (RecyclerView) view.findViewById(R.id.rc);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new QuickAdapter(40));
+        QuickAdapter adapter = new QuickAdapter(10);
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Toast.makeText(getContext(), "下拉刷新" + godSeflRefreshView.isHeaderRefreshing() + "  " + "上拉加载" + godSeflRefreshView.isFooterRefreshing(), Toast.LENGTH_LONG).show();
+            }
+        });
+        recyclerView.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Toast.makeText(getContext(), "下拉刷新" + godSeflRefreshView.isHeaderRefreshing() + "  " + "上拉加载" + godSeflRefreshView.isFooterRefreshing(), Toast.LENGTH_LONG).show();
+            }
+        });
+        recyclerView.setAdapter(adapter);
         //下拉刷新监听
         godSeflRefreshView.setOnHeaderRefreshListener(new OnHeaderRefreshListener() {
 
@@ -55,7 +71,7 @@ public class NotSelfFragment extends Fragment {
                         godSeflRefreshView.onHeaderRefreshComplete();
                         i = 0;
                     }
-                }, 2000);
+                }, 5000);
             }
         });
         //上拉加载
@@ -70,7 +86,7 @@ public class NotSelfFragment extends Fragment {
                         public void run() {
                             godSeflRefreshView.onFooterRefreshComplete();
                         }
-                    }, 2000);
+                    }, 5000);
                 } else {
                     godSeflRefreshView.onFooterRefreshOver();
                 }

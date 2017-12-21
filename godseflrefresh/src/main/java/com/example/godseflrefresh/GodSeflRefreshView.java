@@ -219,8 +219,10 @@ public class GodSeflRefreshView extends LinearLayout {
             case MotionEvent.ACTION_MOVE:
                 int deltaY = y - lastY;
                 if (mPullState == PULL_DOWN_STATE) {
+                    if (getNowRefreshState()) break;
                     initHeaderViewToRefresh(deltaY);
                 } else if (mPullState == PULL_UP_STATE) {
+                    if (getNowRefreshState()) break;
                     initFooterViewToRefresh(deltaY);
                 }
                 lastY = y;
@@ -229,12 +231,14 @@ public class GodSeflRefreshView extends LinearLayout {
             case MotionEvent.ACTION_CANCEL:
                 int topMargin = getHeaderTopMargin();
                 if (mPullState == PULL_DOWN_STATE) {
+                    if (getNowRefreshState()) break;
                     if (topMargin >= 0) {
                         headerRefreshing();
                     } else {
                         reSetHeaderTopMargin(-mHeadViewHeight);
                     }
                 } else if (mPullState == PULL_UP_STATE) {
+                    if (getNowRefreshState()) break;
                     if (Math.abs(topMargin) >= mHeadViewHeight
                             + mFooterViewHeight) {
                         // 开始执行footer 刷新
@@ -248,6 +252,13 @@ public class GodSeflRefreshView extends LinearLayout {
         }
 
         return super.onTouchEvent(event);
+    }
+
+    private boolean getNowRefreshState() {
+        if (mFooterState == REFRESHING || mHeaderState == REFRESHING) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -319,7 +330,6 @@ public class GodSeflRefreshView extends LinearLayout {
         if (mBaseHeaderManager == null) {
             return;
         }
-
         mHeaderState = REFRESHING;
         setHeaderTopMargin(0);
         mBaseHeaderManager.headerRefreshing();
@@ -333,6 +343,28 @@ public class GodSeflRefreshView extends LinearLayout {
      */
     public void autoHeaderRefreshing() {
         headerRefreshing();
+    }
+
+    /**
+     * 头部是否正在刷新
+     * @return
+     */
+    public boolean isHeaderRefreshing() {
+        if (mPullState == PULL_DOWN_STATE) {
+            return  mHeaderState == REFRESHING;
+        }
+        return false;
+    }
+
+    /**
+     * 尾部是否正在刷新
+     * @return
+     */
+    public boolean isFooterRefreshing() {
+        if (mPullState == PULL_UP_STATE) {
+            return mFooterState == REFRESHING;
+        }
+        return false;
     }
 
     /**
@@ -461,7 +493,8 @@ public class GodSeflRefreshView extends LinearLayout {
                 /*set by ydg   由判断第一个完整可见view  改为判断第一个可见view 且处于最顶端
                 * 第一种情况  第一个item 一个屏幕显示不下 也就是上述返回-1不能满足
                 * */
-                int position = mLinearLayoutManager.findFirstVisibleItemPosition();
+//                int position = mLinearLayoutManager.findFirstVisibleItemPosition();
+                int position = mLinearLayoutManager.findFirstCompletelyVisibleItemPosition();
                 if (position == 0) {
                     View firstVisiableChildView = mLinearLayoutManager.findViewByPosition(position);
                     if (firstVisiableChildView != null && firstVisiableChildView.getTop() >= 0) {
