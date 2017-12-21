@@ -17,6 +17,8 @@ import com.example.godseflrefresh.GodSeflRefreshView;
 import com.example.godseflrefresh.interfaces.OnFooterRefreshListener;
 import com.example.godseflrefresh.interfaces.OnHeaderRefreshListener;
 
+import java.util.List;
+
 /**
  * Created by anson on 2017/8/25.
  */
@@ -27,6 +29,8 @@ public class NotSelfFragment extends Fragment {
     private RecyclerView recyclerView;
     public Handler handler = new Handler();
     private int i = 0;
+    private List<Status> sampleData;
+    private QuickAdapter adapter;
 
     @Nullable
     @Override
@@ -45,7 +49,8 @@ public class NotSelfFragment extends Fragment {
         godSeflRefreshView.setBaseHeaderManager();
         recyclerView = (RecyclerView) view.findViewById(R.id.rc);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        QuickAdapter adapter = new QuickAdapter(10);
+        sampleData = DataServer.getSampleData(2);
+        adapter = new QuickAdapter(sampleData);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -70,6 +75,9 @@ public class NotSelfFragment extends Fragment {
                     public void run() {
                         godSeflRefreshView.onHeaderRefreshComplete();
                         i = 0;
+                        sampleData.addAll(DataServer.getSampleData(5));
+                        adapter.setNewData(sampleData);
+                        adapter.notifyDataSetChanged();
                     }
                 }, 5000);
             }

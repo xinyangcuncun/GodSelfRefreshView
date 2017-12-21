@@ -42,7 +42,7 @@ public class SelfFragment extends Fragment {
         godSeflRefreshView.setBaseHeaderManager(new MeituanRefreshHeaderManager(getContext()));
         recyclerView = (RecyclerView) view.findViewById(R.id.rc);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new QuickAdapter(40));
+//        recyclerView.setAdapter(new QuickAdapter(40));
         //下拉刷新监听
         godSeflRefreshView.setOnHeaderRefreshListener(new OnHeaderRefreshListener() {
 

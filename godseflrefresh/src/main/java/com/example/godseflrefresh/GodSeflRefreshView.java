@@ -484,12 +484,13 @@ public class GodSeflRefreshView extends LinearLayout {
         }
 
         if (mRecyclerView != null) {
+            LinearLayoutManager mLinearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
             if (deltaY > 0) {
                 View child = mRecyclerView.getChildAt(0);
                 if (child == null) {
                     belongToParentView = false;
                 }
-                LinearLayoutManager mLinearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+
                 /*set by ydg   由判断第一个完整可见view  改为判断第一个可见view 且处于最顶端
                 * 第一种情况  第一个item 一个屏幕显示不下 也就是上述返回-1不能满足
                 * */
@@ -502,11 +503,15 @@ public class GodSeflRefreshView extends LinearLayout {
                         belongToParentView = true;
                     }
                 }
-
             } else if (deltaY < 0) {
                 View child = mRecyclerView.getChildAt(0);
                 if (child == null) {
                     belongToParentView = false;
+                }
+                int lastCompletelyVisibleItemPosition = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
+                View firstVisiableChildView = mLinearLayoutManager.findViewByPosition(lastCompletelyVisibleItemPosition);
+                if (firstVisiableChildView != null && lastCompletelyVisibleItemPosition == mLinearLayoutManager.getChildCount() -1 ) {
+                    return false;
                 }
                 if (mRecyclerView.computeVerticalScrollExtent() + mRecyclerView.computeVerticalScrollOffset()
                         >= mRecyclerView.computeVerticalScrollRange()){

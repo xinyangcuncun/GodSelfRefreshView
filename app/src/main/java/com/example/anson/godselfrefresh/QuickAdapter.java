@@ -4,13 +4,15 @@ package com.example.anson.godselfrefresh;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
+import java.util.List;
+
 /**
  * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  */
 public class QuickAdapter extends BaseQuickAdapter<Status, BaseViewHolder> {
 
-    public QuickAdapter(int dataSize) {
-        super(R.layout.layout_animation, DataServer.getSampleData(dataSize));
+    public QuickAdapter(List<Status> data) {
+        super(R.layout.layout_animation, data);
     }
 
     @Override
