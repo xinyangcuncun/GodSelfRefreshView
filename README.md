@@ -7,7 +7,9 @@ WebView仅支持原生
 
 ##V2.0
 
-WebView支持腾讯SDK
+支持自动刷新功能
+
+autoHeaderRefreshing()；
 
 ##依赖使用
 
