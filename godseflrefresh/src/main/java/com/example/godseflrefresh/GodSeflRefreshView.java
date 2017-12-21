@@ -329,6 +329,13 @@ public class GodSeflRefreshView extends LinearLayout {
     }
 
     /**
+     * 自动下拉刷新功能
+     */
+    public void autoHeaderRefreshing() {
+        headerRefreshing();
+    }
+
+    /**
      * 处理正在加载
      */
     private void footerRefreshing() {
